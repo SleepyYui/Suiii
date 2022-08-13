@@ -56,18 +56,17 @@ end
 function deletionDrive()
     if menu.is_option_toggled("deletionDrive") and player.is_in_vehicle() then
         -- system.log_info("Nanomachines, son.")
-        vCurrentVehicle = player.get_vehicle()
-        ventNearbyEntities = scripting.entity.get_nearby_entities()
-        vpedNearbyPeds = scripting.ped.get_nearby_peds()
-        vVehNearbyVehicles = scripting.vehicle.get_nearby_vehicles()
-        for i, entity in pairs(ventNearbyEntities) do
+        NearbyEntities = scripting.entity.get_nearby_entities()
+        NearbyPeds = scripting.ped.get_nearby_peds()
+        NearbyVehicles = scripting.vehicle.get_nearby_vehicles()
+        for i, entity in pairs(NearbyEntities) do
             -- system.log_info(entity)
             rage.entity.delete_entity(entity)
         end
-        for i, ped in pairs(vpedNearbyPeds) do
+        for i, ped in pairs(NearbyPeds) do
             rage.entity.delete_entity(ped)
         end
-        for i, vehicle in pairs(vVehNearbyVehicles) do
+        for i, vehicle in pairs(NearbyVehicles) do
             rage.entity.delete_entity(vehicle)
         end
     end
