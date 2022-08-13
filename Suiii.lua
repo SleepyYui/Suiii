@@ -59,15 +59,30 @@ function deletionDrive()
         NearbyEntities = scripting.entity.get_nearby_entities()
         NearbyPeds = scripting.ped.get_nearby_peds()
         NearbyVehicles = scripting.vehicle.get_nearby_vehicles()
-        for i, entity in pairs(NearbyEntities) do
-            -- system.log_info(entity)
-            rage.entity.delete_entity(entity)
+        if menu.is_option_toggled("deletionDriveEnt") and player.is_in_vehicle() then
+            for i, entity in pairs(NearbyEntities) do
+                -- system.log_info(entity)
+                if rage.entity.has_entity_collided_with_anything(entity) then
+                    rage.entity.set_entity_as_mission_entity(entity, true, true)
+                    rage.entity.delete_entity(entity) 
+                end
+            end
         end
-        for i, ped in pairs(NearbyPeds) do
-            rage.entity.delete_entity(ped)
+        if menu.is_option_toggled("deletionDrivePed") and player.is_in_vehicle() then
+            for i, ped in pairs(NearbyPeds) do
+                if rage.entity.has_entity_collided_with_anything(ped) then
+                    rage.entity.set_entity_as_mission_entity(ped, true, true)
+                    rage.entity.delete_entity(ped)
+                end
+            end
         end
-        for i, vehicle in pairs(NearbyVehicles) do
-            rage.entity.delete_entity(vehicle)
+        if menu.is_option_toggled("deletionDriveVeh") and player.is_in_vehicle() then
+            for i, vehicle in pairs(NearbyVehicles) do
+                if rage.entity.has_entity_collided_with_anything(vehicle) then
+                    rage.entity.set_entity_as_mission_entity(vehicle, true, true)
+                    rage.entity.delete_entity(vehicle)
+                end
+            end
         end
     end
 end
@@ -102,6 +117,9 @@ menu.add_option_toggle("Disable Vehicle Collision", "disableCollision", vehicle_
 
 system.add_task("Deletion Drive Loop", "deletionDriveLoop", -1, deletionDrive)
 menu.add_option_toggle("Deletion Drive", "deletionDrive", vehicle_tab, deletionDrive)
+menu.add_option_toggle("Cars", "deletionDriveVeh", vehicle_tab, deletionDrive)
+menu.add_option_toggle("Peds", "deletionDrivePed", vehicle_tab, deletionDrive)
+menu.add_option_toggle("Entities", "deletionDriveEnt", vehicle_tab, deletionDrive)
 
 -- Adding Player Options
 
